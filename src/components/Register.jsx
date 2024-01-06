@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confPassword, setConfPassword] = useState('');
+    const [msg, setMsg] = useState('');
+    const navigate = useNavigate();
 
     const Register = async(e) =>{
         e.preventDefault();
@@ -16,9 +19,11 @@ const Register = () => {
                 password: password,
                 confPassword: confPassword
             });
-
+            navigate("/");
         } catch (error) {
-            
+            if(error.response) {
+                setMsg(error.response.data.msg);
+            }
         }
     }
 
@@ -28,6 +33,7 @@ const Register = () => {
             <div className="container">
                 <div className="columns is-centered">
                     <div className="column is-4-desktop">
+                        <p className='has-text-centerd'>{msg}</p>
                         <form onSubmit={ Register }className='box'>
                             <div className="field mt-5">
                                 <label className="label">Name</label>
